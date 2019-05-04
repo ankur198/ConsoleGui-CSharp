@@ -24,11 +24,13 @@ namespace ConsoleGUI_CS
         {
             var toriginalColor = Console.BackgroundColor;
             //var tcursor = Console.CursorVisible;
-            var tleft = Console.CursorLeft;
-            var ttop = Console.CursorTop;
+            //var tleft = Console.CursorLeft;
+            //System.Console.WriteLine("yoo");
+            //var ttop = Console.CursorTop;
 
             //Console.CursorVisible = false;
-            Console.SetCursorPosition(left+currentWidth, top);
+
+            //System.Console.WriteLine("yoo");
 
             for (int i = 0; i < numOfColors + 1; i++)
             {
@@ -37,7 +39,7 @@ namespace ConsoleGUI_CS
             }
             Console.BackgroundColor = toriginalColor;
             //Console.CursorVisible = tcursor;
-            Console.SetCursorPosition(tleft, ttop);
+            //Console.SetCursorPosition(tleft, ttop);
         }
 
         private void NextRainbowColor(ConsoleColor color)
@@ -83,6 +85,7 @@ namespace ConsoleGUI_CS
 
             for (int i = 0; i < charToPrint; i++)
             {
+                Console.SetCursorPosition(left + currentWidth, top);
                 currentWidth++;
                 if (currentWidth >= maxWidth)
                 {
