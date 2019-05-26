@@ -5,7 +5,10 @@ using System.Threading;
 
 namespace ConsoleGuiLib.Container
 {
-    public class SimpleContainer : GuiElement
+    /// <summary>
+    /// Simple Container with shadow, can contain items within itself
+    /// </summary>
+    public class SimpleContainer : GuiElement, IShadowableElement
     {
         private List<IGuiElement> _InsideElements = new List<IGuiElement>();
 
@@ -13,6 +16,9 @@ namespace ConsoleGuiLib.Container
             base(X, Y, Width, Height)
         {
         }
+
+        public ConsoleColor ShadowColor { get; set; }
+        public bool isShadowEnabled { get; set; }
 
         public IGuiElement this[int index]
         {
@@ -47,27 +53,54 @@ namespace ConsoleGuiLib.Container
         private void DrawBorder()
         {
             // row border
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < WorkableArea.MaxX - 1; i++)
             {
                 Print(i, 0, '=');
-                Print(i, Height - 1, '=');
+                Print(i, WorkableArea.MaxY, '=');
             }
 
             // column border
             // this loop starts from 1 and end before last row
-            for (int i = 1; i < Height - 1; i++)
+            for (int i = 0; i < WorkableArea.MaxY + 1; i++)
             {
                 Print(0, i, "||");
-                Print(Width - 2, i, "||");
+                Print(WorkableArea.MaxX - 1, i, "||");
             }
         }
 
         public override void Draw()
         {
             PaintBackground();
+            if (isShadowEnabled)
+            {
+                PaintShadow();
+            }
             DrawBorder();
+
+            AddText();
         }
 
+        private void AddText()
+        {
+            var s = "Yoo bro kesi ho?";
+            Print(WorkableArea.MinX + 4, WorkableArea.MinY + 4, s);
+        }
 
+        public void PaintShadow()
+        {
+            for (int i = 0; i < WorkableArea.MaxY; i++)
+            {
+                Print(WorkableArea.MaxX, i, ' ', ShadowColor, ShadowColor);
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < WorkableArea.MaxX + 1; i++)
+            {
+                sb.Append(' ');
+            }
+            Print(0, WorkableArea.MaxY, sb, ShadowColor, ShadowColor);
+
+            WorkableArea.MaxX -= 1;
+            WorkableArea.MaxY -= 1;
+        }
     }
 }

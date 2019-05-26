@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using ConsoleGuiLib.Helper;
 
 namespace ConsoleGuiLib
 {
@@ -13,6 +14,7 @@ namespace ConsoleGuiLib
         public int Height { get; set; }
         public ConsoleColor Color { get; set; }
         public ConsoleColor BackgroundColor { get; set; }
+        public WorkableArea WorkableArea { get; set; }
 
         public GuiElement(int X, int Y, int Width, int Height)
         {
@@ -22,21 +24,23 @@ namespace ConsoleGuiLib
             this.Height = Height;
             BackgroundColor = ConsoleColor.Black;
             Color = ConsoleColor.White;
+
+            WorkableArea = new WorkableArea() { MinX = 0, MaxX = Width - 1, MinY = 0, MaxY = Height - 1 };
         }
 
-        internal int[] CurrentPointerPosition = new int[] { 0, 0 };
+        //internal int[] CurrentPointerPosition = new int[] { 0, 0 };
 
-        protected void Print(int posX, int posY, object value)
+        protected void Print(int posX, int posY, object value, ConsoleColor? backgroundColor = null, ConsoleColor? foregroundColor = null)
         {
             // Todo something so that only one element can execute print at one time
 
 
-            if (posX + X < Width + X && posY + Y < Height + Y)
+            if (posX < WorkableArea.MaxX + 1 && posY < WorkableArea.MaxY + 1)
             {
 
                 // all settings are correct and we can now print
-                Console.BackgroundColor = BackgroundColor;
-                Console.ForegroundColor = Color;
+                Console.BackgroundColor = backgroundColor ?? BackgroundColor;
+                Console.ForegroundColor = foregroundColor ?? Color;
                 Console.SetCursorPosition(posX + X, posY + Y);
                 Console.Write(value);
             }
@@ -56,12 +60,12 @@ namespace ConsoleGuiLib
         public void PaintBackground()
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < WorkableArea.MaxX; i++)
             {
                 sb.Append(' ');
             }
             var s = sb.ToString();
-            for (int i = 0; i < Height - 1; i++)
+            for (int i = 0; i < WorkableArea.MaxY; i++)
             {
                 Print(0, i, s);
             }

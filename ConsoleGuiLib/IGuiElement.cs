@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleGuiLib.Helper;
+using System;
 
 namespace ConsoleGuiLib
 {
@@ -6,6 +7,8 @@ namespace ConsoleGuiLib
     {
         ConsoleColor BackgroundColor { get; set; }
         ConsoleColor Color { get; set; }
+
+        WorkableArea WorkableArea { get; set; }
         int Height { get; set; }
         int Width { get; set; }
         int X { get; set; }

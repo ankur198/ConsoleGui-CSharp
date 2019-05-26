@@ -10,11 +10,11 @@ namespace ConsoleGUI_CS
         {
             Console.Clear();
 
-            Console.WindowWidth = 150;
-            Console.WindowHeight = Console.LargestWindowHeight;
+            //Console.WindowWidth = 150;
+            //Console.WindowHeight = Console.LargestWindowHeight;
             //Console.WindowHeight = 50;
 
-            // DrawRainbow();
+            //DrawRainbow();
             int Width = Console.WindowWidth;
             int Height = Console.WindowHeight;
 
@@ -22,13 +22,15 @@ namespace ConsoleGUI_CS
             int centerH = Height / 2;
 
 
-            var container = new SimpleContainer(centerW - 40, centerH - 10, 80, 20);
+            var container = new SimpleContainer(centerW - Width / 6, centerH - Height / 4, Width / 2, Height / 2);
             container.BackgroundColor = ConsoleColor.Blue;
             container.Color = ConsoleColor.White;
+            container.ShadowColor = ConsoleColor.White;
+            container.isShadowEnabled = true;
             container.Draw();
 
             Console.ReadLine();
-            Console.ResetColor();
+            //Console.ResetColor();
         }
 
         private static void DrawRainbow()
